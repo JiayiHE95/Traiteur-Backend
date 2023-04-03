@@ -1,14 +1,25 @@
 const User = require("../Model/User");
 const bcrypt = require('bcryptjs');
-const jwt=require("jsonwebtoken")
+const jwt=require("jsonwebtoken");
+const { param } = require("../Router/UserRouter");
 
 exports.createUser = async (req, res) => {
-  const { mail, mdp } = req.body
+  console.log(req.body)
+  const { mail, mdp, firstName, lastName, tel, adresse, cp, city} = req.body
   const hashedPassword = await bcrypt.hash(mdp, 10);
-  await User.create({ mail:mail, mdp:hashedPassword }).then((data)=>{
+  await User.create({ 
+    mail:mail, 
+    mdp:hashedPassword, 
+    firstname:firstName,
+    lastname:lastName,
+    telephone:tel,
+    adresse:adresse,
+    cp:cp,
+    city:city
+  }).then((data)=>{
     res.status(200).send(data)
   }).catch((e)=>{ 
-    console.log(e)
+    //console.log(e)
     res.status(500).end()
     throw e
   })
@@ -16,21 +27,20 @@ exports.createUser = async (req, res) => {
 
 exports.connexion= async (req, res) => {
   const { mail, mdp } = req.body
-  console.log("coucou")
   console.log(req.body)
-  await User.findAll({ 
+  await User.findOne({ 
     raw: true,
     where: { mail: mail } 
   }).then((data)=>{
-    if (data.length==1){
-      bcrypt.compare(mdp, data[0].mdp, (e, response)=>{
+    if (data){
+      bcrypt.compare(mdp, data.mdp, (e, response)=>{
         if (response){
-          const mail=data[0].mail
+          const mail=data.mail
           const token=jwt.sign({mail},"jwtSecret",{
             //TODO
-            expiresIn:10,
+            expiresIn:100,
           })
-          res.send({auth:true, token:token, result:data})
+          res.send({auth:true, token:token, user:data})
         }else{
           res.send({auth:false, message:"Identifiant ou mot de pass incorrect"})
         }
@@ -40,10 +50,6 @@ exports.connexion= async (req, res) => {
     }
   })
 }
-
-/*
-exports.deconnexion()= async (req, res) => {
-}*/
 
 exports.verifyJWT=(req,res,next)=>{
   const token=req.headers["x-access-token"]
@@ -58,7 +64,6 @@ exports.verifyJWT=(req,res,next)=>{
         res.send({auth:true, message:"logged"})
         next()
       }
-      console.log("xc")
     })
   }
 }
@@ -88,6 +93,20 @@ exports.getUserById = async (req, res) => {
    res.status(500).json({ message: err.message });
  }
 };
+
+exports.getUserByMail= async (req, res) => {
+  const { mail} = req.params
+  await User.findAll({ 
+    //raw: true,
+    where: { mail: mail } 
+  }).then((data)=>{
+    if (data.length>0){
+      res.send({exist:true, message:"Unvalid Mail"})
+    }else{
+      res.send({exist:false, message:"Valid Mail"})
+    }
+  })
+}
 
 exports.updateUser = async (req, res) => {
  const { id } = req.params;

@@ -6,6 +6,7 @@ const userController = require("../Controller/UserController");
 // GET all users
 router.get("/all", userController.getUsers);
 router.get("/isLogged", userController.verifyJWT);
+router.get("/get-user-by-mail/:mail", userController.getUserByMail);
 // GET user by ID
 router.get("/:id/profil", userController.getUserById);
 

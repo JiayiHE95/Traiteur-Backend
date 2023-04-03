@@ -22,6 +22,30 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     }, 
+    firstname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }, 
+    lastname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }, 
+    adresse: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }, 
+    cp: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }, 
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }, 
+    telephone: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }, 
     createdAt:{
      type:DataTypes.DATE,
      allowNull: true,
