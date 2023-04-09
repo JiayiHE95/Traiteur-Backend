@@ -2,9 +2,10 @@ const User = require("../Model/User");
 const bcrypt = require('bcryptjs');
 const jwt=require("jsonwebtoken");
 const { param } = require("../Router/UserRouter");
+const CartController=require("./CartController")
 
 exports.createUser = async (req, res) => {
-  console.log(req.body)
+  //console.log(req.body)
   const { mail, mdp, firstName, lastName, tel, adresse, cp, city} = req.body
   const hashedPassword = await bcrypt.hash(mdp, 10);
   await User.create({ 
@@ -27,7 +28,7 @@ exports.createUser = async (req, res) => {
 
 exports.connexion= async (req, res) => {
   const { mail, mdp } = req.body
-  console.log(req.body)
+  //console.log(req.body)
   await User.findOne({ 
     raw: true,
     where: { mail: mail } 
@@ -38,7 +39,7 @@ exports.connexion= async (req, res) => {
           const mail=data.mail
           const token=jwt.sign({mail},"jwtSecret",{
             //TODO
-            expiresIn:100,
+            expiresIn:500,
           })
           res.send({auth:true, token:token, user:data})
         }else{
@@ -50,6 +51,7 @@ exports.connexion= async (req, res) => {
     }
   })
 }
+
 
 exports.verifyJWT=(req,res,next)=>{
   const token=req.headers["x-access-token"]

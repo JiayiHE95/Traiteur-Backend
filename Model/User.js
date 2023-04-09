@@ -1,5 +1,7 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, BelongsTo } = require("sequelize");
 const sequelize = require("../Config/db");
+const CartDetail=require("./CartDetail")
+const Order=require("./Order")
 
 const User = sequelize.define(
   "User",
@@ -63,6 +65,11 @@ const User = sequelize.define(
     tableName: "user",
     //timestamps: false,
   }
-);
+)
+
+User.hasMany(CartDetail, {as:'cartdetails',foreignKey:'idUser'})
+CartDetail.belongsTo(User,{foreignKey:"idUser"})
+User.hasMany(Order, {as:'orders',foreignKey:'idUser'})
+Order.belongsTo(User,{foreignKey:"idUser"})
 
 module.exports = User;
