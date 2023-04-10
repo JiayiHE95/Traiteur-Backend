@@ -7,6 +7,10 @@ const userController = require("../Controller/UserController");
 router.get("/all", userController.getUsers);
 router.get("/isLogged", userController.verifyJWT);
 router.get("/get-user-by-mail/:mail", userController.getUserByMail);
+router.get("/get-user-by-pwtoken/:token", userController.getUserByPWToken);
+router.post("/password-forgot", userController.passwordForgot);
+router.post("/password-reset", userController.passwordReset);
+router.get("/check-pw-token", userController.verifyPWToken);
 // GET user by ID
 router.get("/:id/profil", userController.getUserById);
 

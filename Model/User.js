@@ -24,6 +24,10 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     }, 
+    reset_password_token:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     firstname: {
       type: DataTypes.STRING,
       allowNull: false,
