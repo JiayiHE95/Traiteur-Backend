@@ -3,21 +3,18 @@ const router = express.Router();
 
 const userController = require("../Controller/UserController");
 
-// GET all users
 router.get("/all", userController.getUsers);
 router.get("/isLogged", userController.verifyJWT);
 router.get("/get-user-by-mail/:mail", userController.getUserByMail);
+router.get("/get-user-by-id/:id", userController.getUserById);
 router.get("/get-user-by-pwtoken/:token", userController.getUserByPWToken);
+router.post("/check-password", userController.verifyPassword);
 router.post("/password-forgot", userController.passwordForgot);
 router.post("/password-reset", userController.passwordReset);
 router.get("/check-pw-token", userController.verifyPWToken);
-// GET user by ID
 router.get("/:id/profil", userController.getUserById);
-
-// GET user by ID
 router.post("/connexion", userController.connexion);
-
-// POST create new user
-router.post("/create-user", userController.createUser);
+router.post("/create-user", userController.createUser)
+router.post("/update-user", userController.updateUser);
 
 module.exports = router;

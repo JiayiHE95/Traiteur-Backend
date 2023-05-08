@@ -1,6 +1,7 @@
 const { DataTypes, BelongsTo } = require("sequelize");
 const sequelize = require("../Config/db");
 const OrderDetail = require("./OrderDetail");
+const Product=require("../Model/Product")
 
 const Order = sequelize.define(
   "Order",
@@ -14,47 +15,55 @@ const Order = sequelize.define(
      type: DataTypes.INTEGER,
      primaryKey: true,
     },
-   codePromo: {
-     type: DataTypes.STRING,
-     allowNull: true,
-   },
    totalprice: {
     type: DataTypes.FLOAT,
     allowNull: false,
   }, 
-   orderstatus:{
-    type:DataTypes.ENUM('supprimée', 'passée', 'créée', 'préparation en cours', 'annulée', 'livrée'),
-    defaultValue: 'créée',
+  paid: {
+    type: DataTypes.FLOAT,
     allowNull: false,
+  }, 
+  discount: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  }, 
+   orderstatus:{
+    type:DataTypes.ENUM('créée', 'préparation en cours', 'livrée'),
+    defaultValue: 'créée',
+    allowNull: true,
    }, 
   
     firstname: {
       type: DataTypes.STRING,
-      //allowNull: false,
+      allowNull: false,
     }, 
     lastname: {
       type: DataTypes.STRING,
-      //allowNull: false,
+      allowNull: false,
     }, 
     adresse: {
       type: DataTypes.STRING,
-      //allowNull: false,
+      allowNull: false,
     }, 
     cp: {
       type: DataTypes.STRING,
-      //allowNull: false,
+      allowNull: false,
     }, 
     city: {
       type: DataTypes.STRING,
-      //allowNull: false,
+      allowNull: false,
     }, 
     telephone: {
       type: DataTypes.STRING,
-      //allowNull: false,
+      allowNull: false,
     }, 
     mail: {
      type: DataTypes.STRING,
-     //allowNull: false,
+     allowNull: false,
+   },
+   deliverydate:{
+    type:DataTypes.DATE,
+    allowNull: false,
    },
     createdAt:{
      type:DataTypes.DATE,
@@ -76,6 +85,7 @@ const Order = sequelize.define(
 )
 
 Order.hasMany(OrderDetail, {as:'orderdetails',foreignKey:'idOrder'})
-OrderDetail.belongsTo(Order,{foreignKey:"idOrder"})
+OrderDetail.belongsTo(Order,{as:'order',foreignKey:"idOrder"})
+
 
 module.exports = Order;

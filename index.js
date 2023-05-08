@@ -5,6 +5,7 @@ const userRouter = require("./Router/UserRouter")
 const productRouter =require("./Router/ProductRouter")
 const cartRouter=require("./Router/CartRouter")
 const promoRouter=require("./Router/PromoRouter")
+const orderRouter=require("./Router/OrderRouter")
 
 var corsOptions = {
   origin: 'http://localhost:3000',
@@ -17,6 +18,7 @@ app.use("/user", userRouter);
 app.use("/product",productRouter)
 app.use("/cart",cartRouter)
 app.use("/promo",promoRouter)
+app.use("/order",orderRouter)
 
 app.listen(5000,()=>{
  //pour commencer le serveur : npm run dev

@@ -2,6 +2,8 @@ const User = require("../Model/User")
 const bcrypt = require('bcryptjs')
 const jwt=require("jsonwebtoken")
 const nodemailer = require('nodemailer')
+const handlebars = require('handlebars')
+const fs = require('fs')
 
 exports.createUser = async (req, res) => {
   //console.log(req.body)
@@ -22,7 +24,26 @@ exports.createUser = async (req, res) => {
     res.status(500).end()
     throw e
   })
-};
+}
+
+exports.updateUser = async (req, res) => {
+  const { mail, firstName, lastName, telephone, adresse, cp, city, idUser} = req.body
+  await User.update({ 
+    mail:mail, 
+    firstname:firstName,
+    lastname:lastName,
+    telephone:telephone,
+    adresse:adresse,
+    cp:cp,
+    city:city
+  },
+  {where:{idUser:idUser}}).then((data)=>{
+    res.status(200).send({update:true})
+  }).catch((e)=>{ 
+    res.status(500).end()
+    throw e
+  })
+}
 
 exports.connexion= async (req, res) => {
   const { mail, mdp } = req.body
@@ -36,7 +57,7 @@ exports.connexion= async (req, res) => {
           const mail=data.mail
           const token=jwt.sign({mail},"jwtSecret",{
             //TODO
-            expiresIn:500,
+            expiresIn:5000,
           })
           res.send({auth:true, token:token, user:data})
         }else{
@@ -45,6 +66,27 @@ exports.connexion= async (req, res) => {
       })
     }else{
       res.send({auth:false, message:"Utilisateur n'existe pas"})
+    }
+  })
+}
+
+
+exports.verifyPassword= async (req, res) => {
+  const { mail, mdp } = req.body
+  await User.findOne({ 
+    raw: true,
+    where: { mail: mail } 
+  }).then((data)=>{
+    if (data){
+      bcrypt.compare(mdp, data.mdp, (e, response)=>{
+        if (response){
+          res.send({passwordCorrect:true})
+        }else{
+          res.send({passwordCorrect:false})
+        }
+      })
+    }else{
+      res.send({passwordCorrect:false})
     }
   })
 }
@@ -91,7 +133,7 @@ exports.passwordForgot=async(req,res)=>{
   }).then((data)=>{
     if (data){
       const token=jwt.sign({mail},"passwordForgot",{
-        expiresIn:1000,
+        expiresIn:5000,
       })
       User.update({ reset_password_token: token }, { where: { mail: mail } })
       const transporter = nodemailer.createTransport({
@@ -101,29 +143,36 @@ exports.passwordForgot=async(req,res)=>{
           pass: 'xosvtlvmkfnymgzw'
         }
       });
+
+      const emailTemplate = fs.readFileSync('Template/reset-pw.html', 'utf8')
+      const compiledTemplate = handlebars.compile(emailTemplate)
+      const html = compiledTemplate({ resetPasswordLink: `http://localhost:3000/reset-password/${token}` });
+
       const mailOptions = {
         from: 'alicehe951015@gmail.com',
         to: mail,
-        subject: 'Réinitialisation de mot de passe',
-        text: `Bonjour,\n\nNous avons reçu une demande de réinitialisation de votre mot de passe.\nCliquez sur le lien suivant pour réinitialiser votre mot de passe :\nhttp://localhost:3000/reset-password/${token}`
+        subject: 'Traiter Lian - Réinitialisation de mot de passe',
+        html: html
       }
 
       try {
-        // Envoyer l'e-mail
         transporter.sendMail(mailOptions)
-        res.status(200).send('Un e-mail a été envoyé pour réinitialiser votre mot de passe.');
+        res.status(200).send({reset:true, message:'Un e-mail a été envoyé pour réinitialiser votre mot de passe.'});
       } catch (error) {
         console.error(error);
-        res.status(500).send('Erreur lors de l\'envoi de l\'e-mail.');
+        res.status(500).send({reset:false, message:'Erreur lors de l\'envoi de l\'e-mail.'});
       }
-    }})
+    }else{
+      res.status(200).send({reset:false, message:'Le mail saisi ne correspond à aucun compte'});
+    }
+  })
 }
 
 exports.passwordReset = async (req, res) => {
   const { mail, mdp} = req.body
   const hashedPassword = await bcrypt.hash(mdp, 10);
   await User.update({ reset_password_token: null, mdp:hashedPassword }, { where: { mail: mail } }).then((data)=>{
-    res.status(200).send('Mot de passe initialisé avec réussite ! ');
+    res.status(200).send({reset:true, message:'Mot de passe initialisé avec réussite ! '});
   }).catch((e)=>{ 
     res.status(500).end()
     throw e

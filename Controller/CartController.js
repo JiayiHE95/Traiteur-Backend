@@ -1,8 +1,9 @@
 const CartDetail=require("../Model/CartDetail")
+const Product=require("../Model/Product")
 
 exports.getCart = async (req, res) => {
  const {idUser} = req.params
- await CartDetail.findAll({where:{idUser:idUser}}).then((data)=>{
+ await CartDetail.findAll({where:{idUser:idUser}, include: [{model:Product,as:'product'}]}).then((data)=>{
   if (data){
    res.send(data)
   }else{
@@ -35,8 +36,11 @@ exports.update = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
- const { idUser} = req.body
- await CartDetail.destroy({where:{idUser:idUser}}).catch(e => {
+  const {idUser} = req.params
+  try {
+  await CartDetail.destroy({where:{idUser:idUser}})
+  res.send({ succes: true, message: "Empty Cart" });
+  }catch(e) {
   console.log(e.message)
- })
+  }
 }

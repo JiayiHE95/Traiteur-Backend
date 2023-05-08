@@ -1,6 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../Config/db");
-const Product=require("./Product")
+const Product=require("./Product");
+const Order = require("./Order");
+
 const OrderDetail = sequelize.define(
  "OrderDetail",
  {
@@ -16,10 +18,6 @@ const OrderDetail = sequelize.define(
      type: DataTypes.INTEGER,
      allowNull: false,
    }, 
-   totalprice: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  }, 
    createdAt:{
     type:DataTypes.DATE,
     allowNull: true,
@@ -39,5 +37,6 @@ const OrderDetail = sequelize.define(
  }
 );
 
-OrderDetail.hasOne(Product,{as:'product', foreignKey:"idProduct"})
+OrderDetail.belongsTo(Product, { foreignKey: 'idProduct', as: 'product' });
+
 module.exports = OrderDetail;

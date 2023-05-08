@@ -74,6 +74,6 @@ const User = sequelize.define(
 User.hasMany(CartDetail, {as:'cartdetails',foreignKey:'idUser'})
 CartDetail.belongsTo(User,{foreignKey:"idUser"})
 User.hasMany(Order, {as:'orders',foreignKey:'idUser'})
-Order.belongsTo(User,{foreignKey:"idUser"})
+Order.belongsTo(User,{as:'user',foreignKey:"idUser"})
 
 module.exports = User;

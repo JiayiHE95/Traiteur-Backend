@@ -10,8 +10,8 @@ const Product = sequelize.define(
      primaryKey: true,
      autoIncrement: true,
    },
-   categorie:{
-     type:DataTypes.ENUM('entree', 'plat', 'dessert'),
+   category:{
+     type:DataTypes.ENUM('Entrée', 'Plat', 'Dessert'),
      defaultValue: 'plat',
      allowNull: false,
    }, 
@@ -43,5 +43,6 @@ const Product = sequelize.define(
 );
 Product.hasMany(Picture,{as:'pictures',foreignKey:'idProduct'})
 Picture.belongsTo(Product,{foreignKey:"idProduct"})
+
 
 module.exports = Product;

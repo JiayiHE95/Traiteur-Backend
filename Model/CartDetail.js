@@ -35,6 +35,8 @@ const CartDetail = sequelize.define(
    //timestamps: false,
  }
 );
-CartDetail.hasOne(Product,{as:'product', foreignKey:"idProduct"})
+
+Product.hasMany(CartDetail,{as:'cartdetails',foreignKey:'idProduct'})
+CartDetail.belongsTo(Product,{as:'product',foreignKey:"idProduct"})
 
 module.exports = CartDetail;
