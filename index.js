@@ -8,9 +8,11 @@ const orderRouter=require("./Router/OrderRouter")
 const cors=require('cors')
 require("dotenv").config();
 
+const url=process.env.URL
+
 var corsOptions = {
-  //TODO
-  origin: 'http://localhost:3000',
+  origin:url,
+  //origin: 'http://localhost:3000',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 app.use(cors(corsOptions))
