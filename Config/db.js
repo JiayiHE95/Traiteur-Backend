@@ -7,7 +7,8 @@ const host=process.env.HOST
 const port=process.env.PORT
 
 const sequelize = new Sequelize("ordersystem",'mysql', '753ed129c298e00e', {
-  host:"localhost",
+  host:"dokku-mysql-ordersystem",
+  port:3306,
   dialect: "mysql",
   //logging: false
 });

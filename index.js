@@ -11,10 +11,10 @@ require("dotenv").config();
 const url=process.env.URL
 
 var corsOptions = {
-  origin: '*'
+  origin: '*',
+  credentials:true, 
 }
 
-//app.use(cors(corsOptions))
 app.use(cors(corsOptions))
 
 app.use(function(req, res, next) {
