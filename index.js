@@ -6,6 +6,7 @@ const cartRouter=require("./Router/CartRouter")
 const promoRouter=require("./Router/PromoRouter")
 const orderRouter=require("./Router/OrderRouter")
 const cors=require('cors')
+require("dotenv").config();
 
 var corsOptions = {
   //TODO

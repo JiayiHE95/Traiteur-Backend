@@ -146,7 +146,9 @@ exports.passwordForgot=async(req,res)=>{
 
       const emailTemplate = fs.readFileSync('Template/reset-pw.html', 'utf8')
       const compiledTemplate = handlebars.compile(emailTemplate)
-      const html = compiledTemplate({ resetPasswordLink: `http://localhost:3000/reset-password/${token}` });
+      const url=process.env.URL
+      const html = compiledTemplate({ resetPasswordLink: `${url}reset-password/${token}` });
+      //const html = compiledTemplate({ resetPasswordLink: `http://localhost:3000/reset-password/${token}` });
 
       const mailOptions = {
         from: 'alicehe951015@gmail.com',

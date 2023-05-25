@@ -32,7 +32,9 @@ exports.create = async (req, res) => {
 
   const emailTemplate = fs.readFileSync('Template/confirm-order.html', 'utf8')
   const compiledTemplate = handlebars.compile(emailTemplate)
-  const html = compiledTemplate({ clientHomeLink: `http://localhost:3000/home/user/${idUser}` });
+  const url=process.env.URL
+  //const html = compiledTemplate({ clientHomeLink: `http://localhost:3000/home/user/${idUser}` });
+  const html = compiledTemplate({ clientHomeLink: `${url}home/user/${idUser}` });
 
   const mailOptions = {
     from: 'alicehe951015@gmail.com',
