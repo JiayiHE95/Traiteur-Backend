@@ -136,6 +136,7 @@ exports.getAll = async (req, res) => {
 }
 
 exports.changeStatus = async (req, res) => {
+  console.log(process.env)
   const {idOrder, orderStatus} = req.body
   await Order.update(
     {orderstatus:orderStatus},
@@ -144,7 +145,6 @@ exports.changeStatus = async (req, res) => {
       res.send({modify:true, message:'Status modifié avec réussite ! '});
     }else{
       res.send({modify:false, message:'Erreur modifier Status'});
- 
     }
    })
  }
