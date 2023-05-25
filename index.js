@@ -11,7 +11,7 @@ require("dotenv").config();
 const url=process.env.URL
 
 var corsOptions = {
-  origin: 'http://traiteur-chinois.cluster-ig3.igpolytech.fr',
+  origin: '*',
 }
 
 //app.use(cors(corsOptions))
@@ -24,7 +24,9 @@ app.use("/cart",cartRouter)
 app.use("/promo",promoRouter)
 app.use("/order",orderRouter)
 
-app.listen(5000,()=>{
+const port=process.env.PORT||5000
+
+app.listen(port,()=>{
  //pour commencer le serveur : npm run dev
  console.log("server starded on port 5000")
 })
