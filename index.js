@@ -11,7 +11,7 @@ require("dotenv").config();
 const url=process.env.URL
 
 var corsOptions = {
-  origin: "*"
+  origin: 'http://traiteur-chinois.cluster-ig3.igpolytech.fr',
 }
 
 //app.use(cors(corsOptions))
