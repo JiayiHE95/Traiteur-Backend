@@ -11,8 +11,8 @@ const Product = sequelize.define(
      autoIncrement: true,
    },
    category:{
-     type:DataTypes.ENUM('Entrée', 'Plat', 'Dessert'),
-     defaultValue: 'plat',
+     type:DataTypes.ENUM('ENTREE', 'PLAT', 'DESSERT'),
+     defaultValue: 'PLAT',
      allowNull: false,
    }, 
    nameProduct: {
