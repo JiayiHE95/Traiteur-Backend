@@ -28,7 +28,8 @@ const Order = sequelize.define(
     allowNull: true,
   }, 
    orderstatus:{
-    type:DataTypes.ENUM('CREEE', 'EN PREPARATION', 'LIVREE'),
+    //type:DataTypes.ENUM('CREEE', 'EN PREPARATION', 'LIVREE'),
+    type:DataTypes.STRING,
     defaultValue: 'CREEE',
     allowNull: true,
    }, 
