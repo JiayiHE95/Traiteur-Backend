@@ -25,7 +25,6 @@ exports.getAll = async (req, res) => {
 
 exports.update = async (req, res) => {
   const { codePromo, percent } = req.body
-  console.log(req.body)
   await Promo.update(
     { codePromo:codePromo, percent:percent },
     { where: { codePromo:codePromo } }).then((data) => {

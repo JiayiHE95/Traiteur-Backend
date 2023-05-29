@@ -6,7 +6,6 @@ const handlebars = require('handlebars')
 const fs = require('fs')
 
 exports.createUser = async (req, res) => {
-  //console.log(req.body)
   const { mail, mdp, firstName, lastName, tel, adresse, cp, city} = req.body
   const hashedPassword = await bcrypt.hash(mdp, 10);
   await User.create({ 
@@ -56,7 +55,6 @@ exports.connexion= async (req, res) => {
         if (response){
           const mail=data.mail
           const token=jwt.sign({mail},"jwtSecret",{
-            //TODO
             expiresIn:5000,
           })
           res.send({auth:true, token:token, user:data})

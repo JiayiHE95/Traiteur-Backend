@@ -104,7 +104,6 @@ exports.getAllByFilter = async (req, res) => {
   const {param, value} = req.params
   const whereClause = {}
   whereClause[param] = value
-  console.log( whereClause[param])
   await Order.findAll({
     where:whereClause, 
     include: [

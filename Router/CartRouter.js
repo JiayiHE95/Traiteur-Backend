@@ -3,7 +3,6 @@ const router = express.Router()
 
 const cartController = require("../Controller/CartController")
 
-// GET all users
 router.get("/get-cart/:idUser", cartController.getCart)
 router.post("/add", cartController.add)
 router.post("/merge", cartController.merge)
