@@ -146,7 +146,6 @@ exports.passwordForgot=async(req,res)=>{
       const compiledTemplate = handlebars.compile(emailTemplate)
       const url=process.env.URL
       const html = compiledTemplate({ resetPasswordLink: `${url}reset-password/${token}` });
-      //const html = compiledTemplate({ resetPasswordLink: `http://localhost:3000/reset-password/${token}` });
 
       const mailOptions = {
         from: 'alicehe951015@gmail.com',
@@ -205,7 +204,6 @@ exports.getUserById = async (req, res) => {
 exports.getUserByMail= async (req, res) => {
   const { mail} = req.params
   await User.findAll({ 
-    //raw: true,
     where: { mail: mail } 
   }).then((data)=>{
     if (data.length>0){

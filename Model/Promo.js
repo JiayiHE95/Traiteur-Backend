@@ -27,7 +27,6 @@ const Promo = sequelize.define(
  },
  {
    tableName: "promo",
-   //timestamps: false,
  }
 );
 

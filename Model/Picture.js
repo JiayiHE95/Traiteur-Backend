@@ -33,7 +33,6 @@ const Picture = sequelize.define(
  },
  {
    tableName: "picture",
-   //timestamps: false,
  }
 );
 

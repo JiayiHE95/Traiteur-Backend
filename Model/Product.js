@@ -38,7 +38,6 @@ const Product = sequelize.define(
  },
  {
    tableName: "product",
-   //timestamps: false,
  }
 );
 Product.hasMany(Picture,{as:'pictures',foreignKey:'idProduct'})

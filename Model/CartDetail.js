@@ -32,7 +32,6 @@ const CartDetail = sequelize.define(
  },
  {
    tableName: "cart_detail",
-   //timestamps: false,
  }
 );
 

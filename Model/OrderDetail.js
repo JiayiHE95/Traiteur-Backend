@@ -33,7 +33,6 @@ const OrderDetail = sequelize.define(
  },
  {
    tableName: "order_detail",
-   //timestamps: false,
  }
 );
 
